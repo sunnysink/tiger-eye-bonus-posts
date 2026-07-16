@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Forge Feed — Tiger Eye Oracle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ash: #0C0A07;
+    --charcoal: #131008;
+    --coal: #1A150D;
+    --smoke: #241E14;
+    --tiger-eye: #C8871E;
+    --tiger-glow: #DAA520;
+    --tiger-light: #E8C05A;
+    --amber: #D4940A;
+    --honey: #E8B84A;
+    --flame: #A0600A;
+    --warm-gray: #8A7E6A;
+    --warm-gray-light: #B0A490;
+    --cream: #E8DCC8;
+    --white: #F4EDE0;
+    --divider: rgba(200,135,30,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ash);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { text-decoration: none; }
+
+  .inner { max-width: 900px; margin: 0 auto; }
+  .section { padding: 64px 28px; position: relative; }
+  .bg-ash { background: var(--ash); }
+  .bg-charcoal { background: var(--charcoal); }
+  .bg-coal { background: var(--coal); }
+  .text-center { text-align: center; }
+
+  .heading {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+  }
+
+  .body-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--warm-gray-light);
+  }
+
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--tiger-glow);
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  .italic { font-style: italic; }
+  .color-tiger-glow { color: var(--tiger-glow); }
+
+  @keyframes emberRise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0.8; }
+    30%  { opacity: 1; }
+    100% { transform: translateY(-500px) translateX(var(--edrift)); opacity: 0; }
+  }
+
+  @keyframes smolderPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 0.7; transform: scale(1.05); }
+  }
+
+  /* Hero */
+  .hero { min-height: 380px; overflow: hidden; display: flex; align-items: center; }
+
+  .smolder {
+    position: absolute;
+    width: 60%; height: 70%;
+    bottom: 0; left: 20%;
+    background: radial-gradient(ellipse at 50% 100%, rgba(200,135,30,0.08), rgba(160,96,10,0.04), transparent 70%);
+    animation: smolderPulse 6s ease-in-out infinite;
+    pointer-events: none; z-index: 1;
+  }
+
+  .ember-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 2; }
+  .ember-dot { position: absolute; bottom: -10px; border-radius: 50%; pointer-events: none; }
+
+  .hero h1 { font-size: 46px; margin-bottom: 14px; }
+
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--warm-gray-light);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+
+  /* Video CTA bar */
+  .video-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--divider);
+    border-radius: 40px;
+    padding: 14px 28px;
+    background: rgba(200,135,30,0.05);
+  }
+
+  .video-cta-icon {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tiger-eye), var(--flame), var(--amber));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ash);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .video-cta-text { text-align: left; }
+  .video-cta-title { font-size: 14px; font-weight: 600; color: var(--white); }
+  .video-cta-sub { font-size: 12px; color: var(--warm-gray); margin-top: 2px; }
+
+  /* Notes box */
+  .notes-box {
+    background: rgba(200,135,30,0.06);
+    border: 1px solid rgba(200,135,30,0.25);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .notes-box h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tiger-glow);
+    margin-bottom: 12px;
+  }
+
+  .notes-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .notes-box li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--warm-gray-light);
+    padding: 4px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .notes-box li::before {
+    content: '⚠';
+    position: absolute;
+    left: 0;
+    font-size: 12px;
+  }
+
+  /* Ember Divider */
+  .ember-divider { text-align: center; padding: 6px 0; }
+  .ember-divider svg { opacity: 0.5; }
+
+  /* Post Grid */
+  .post-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-top: 16px;
+  }
+
+  .post-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    padding: 26px 24px;
+    text-align: left;
+    position: relative;
+  }
+
+  .post-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .post-number {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--tiger-eye);
+    opacity: 0.65;
+  }
+
+  .type-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--divider);
+  }
+
+  .type-tag.type-single {
+    color: var(--warm-gray-light);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .type-tag.type-carousel {
+    color: var(--ash);
+    background: linear-gradient(135deg, var(--tiger-light), var(--amber));
+    border-color: var(--amber);
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .offer-tag, .pillar-tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 14px;
+  }
+
+  .offer-tag {
+    background: rgba(200,135,30,0.15);
+    color: var(--tiger-glow);
+    border: 1px solid rgba(200,135,30,0.3);
+  }
+
+  .pillar-tag {
+    background: rgba(255,255,255,0.04);
+    color: var(--warm-gray);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .field { margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+
+  .field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .field-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    opacity: 0.8;
+  }
+
+  .field-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--warm-gray-light);
+  }
+
+  .hook-text {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--tiger-light);
+    line-height: 1.4;
+  }
+
+  .prompt-box {
+    background: var(--ash);
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--warm-gray);
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--divider);
+    color: var(--tiger-glow);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    background: rgba(200,135,30,0.1);
+    border-color: var(--tiger-eye);
+  }
+
+  .copy-btn.copied {
+    background: var(--tiger-eye);
+    border-color: var(--tiger-eye);
+    color: var(--ash);
+  }
+
+  .copy-btn.copy-prompt {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .collapsible-wrap {
+    position: relative;
+    overflow: hidden;
+    max-height: none;
+  }
+
+  .collapsible-wrap.collapsed.caption-wrap { max-height: 58px; }
+  .collapsible-wrap.collapsed.prompt-wrap { max-height: 76px; }
+
+  .collapsible-wrap.collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 26px;
+    background: linear-gradient(to bottom, rgba(19,16,8,0), rgba(19,16,8,0.96));
+  }
+
+  .toggle-btn {
+    background: none;
+    border: none;
+    color: var(--tiger-glow);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 6px 0 0;
+    opacity: 0.85;
+  }
+
+  .toggle-btn:hover { opacity: 1; text-decoration: underline; }
+
+  /* Download link */
+  .download-link {
+    display: block;
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--warm-gray);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .download-link:hover { color: var(--tiger-glow); }
+
+  @media (max-width: 720px) {
+    .post-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 32px; }
+    .video-cta { flex-direction: row; text-align: left; }
+  }
+
+  .site-footer {
+    background: var(--smoke);
+    border-top: 1px solid var(--divider);
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(138,126,106,0.4);
+    line-height: 2.2;
+  }
+</style>
+</head>
+<body>
+
+  <section class="section bg-ash hero">
+    <div class="smolder"></div>
+    <div class="ember-container" id="heroEmbers"></div>
+
+    <div class="inner text-center" style="position:relative; z-index:3; width:100%;">
+      <p class="label" style="text-align:center;">A Forge Session Bonus</p>
+      <h1 class="heading">The Forge Feed<br /><span class="italic color-tiger-glow">10 Posts, Ready to Light</span></h1>
+      <p class="hero-sub">Hook, caption, and an image prompt for every post. Copy what you need and get it on your feed today.</p>
+
+      <a href="https://www.loom.com/share/b346f96fbdaa42eb8e0ef8da500c1c55" class="video-cta" target="_blank" rel="noopener noreferrer">
+        <span class="video-cta-icon">▶</span>
+        <span class="video-cta-text">
+          <span class="video-cta-title">Watch first: Generating your images in ChatGPT</span>
+          <span class="video-cta-sub">4-minute walkthrough</span>
+        </span>
+      </a>
+
+      <a class="download-link" onclick="downloadAllPosts()">Download all 10 posts as a text file (paste into Google Docs)</a>
+    </div>
+  </section>
+
+  <div class="ember-divider">
+    <svg width="240" height="24" viewBox="0 0 240 24"><line x1="0" y1="12" x2="85" y2="12" stroke="rgba(200,135,30,0.12)" stroke-width="0.5"/><path d="M100,18 Q104,6 108,12 Q112,4 116,12 Q120,6 124,18" fill="none" stroke="#C8871E" stroke-width="0.8" opacity="0.4"/><circle cx="112" cy="10" r="2" fill="#DAA520" opacity="0.6"/><path d="M116,18 Q118,10 120,14 Q122,8 124,14 Q126,10 128,18" fill="none" stroke="#D4940A" stroke-width="0.6" opacity="0.3"/><line x1="155" y1="12" x2="240" y2="12" stroke="rgba(200,135,30,0.12)" stroke-width="0.5"/></svg>
+  </div>
+
+  <section class="section bg-charcoal">
+    <div class="inner">
+
+      <div class="notes-box">
+        <h3>Before You Post</h3>
+        <ul>
+          <li>Upload your brand reference image to ChatGPT before using the image prompts. Each prompt says "the uploaded Tiger Eye Oracle brand style" and needs that reference to match your look.</li>
+          <li><strong>Booking links are placeholders.</strong> Your CTAs currently say "DM me MAGICK" and "DM me COMPASS" with "link in bio." Once your booking page is live, swap "link in bio" for your actual URLs.</li>
+          <li>DM keyword <strong>MAGICK</strong> = AstroMagick Monthly ($10/mo). DM keyword <strong>COMPASS</strong> = The Lunar Compass Session ($197).</li>
+        </ul>
+      </div>
+
+      <div class="post-grid" id="postGrid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    The Forge Session &middot; Soul-Forged Method<br />
+    Questions? Email <a href="mailto:sunny@sunnysink.com" style="color:rgba(138,126,106,0.6);">sunny@sunnysink.com</a>
+  </footer>
+
+  <script>
+    function initEmbers(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      function spawnEmber() {
+        const el = document.createElement('div');
+        el.className = 'ember-dot';
+        const size = 2 + Math.random() * 3;
+        const drift = (Math.random() - 0.5) * 50;
+        const dur = 4 + Math.random() * 4;
+        const delay = Math.random() * 2;
+        const color = Math.random() > 0.4 ? '#DAA520' : '#E8C05A';
+        el.style.cssText = 'left:'+Math.random()*100+'%;width:'+size+'px;height:'+size+'px;background:'+color+';box-shadow:0 0 '+size*2+'px '+color+',0 0 '+size*4+'px rgba(200,135,30,0.3);--edrift:'+drift+'px;animation:emberRise '+dur+'s ease-out '+delay+'s forwards;';
+        container.appendChild(el);
+        setTimeout(function(){ el.remove(); }, (dur + delay) * 1000 + 500);
+      }
+      for (var i = 0; i < 8; i++) setTimeout(spawnEmber, i * 300);
+      setInterval(spawnEmber, 350);
+    }
+    initEmbers('heroEmbers');
+
+    function copyField(btn) {
+      var text = btn.closest('.field').querySelector('.field-text, .prompt-box').innerText;
+      navigator.clipboard.writeText(text).then(function() {
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+      });
+    }
+
+    function toggleCollapse(btn) {
+      var wrap = btn.previousElementSibling;
+      wrap.classList.toggle('collapsed');
+      var label = btn.dataset.label;
+      btn.textContent = wrap.classList.contains('collapsed') ? 'Show full ' + label : 'Show less';
+    }
+
+    var POSTS = [
+      {
+        type: "single",
+        offer: "AstroMagick Monthly",
+        pillar: "Knowing",
+        hook: "Know your month before you live it.",
+        caption: "How many nights this week did you fall asleep asking the same question about him?\n\n📌 Save this for the next time you catch yourself spiraling at 1am.\n\nThat question feels urgent at 1am because you have no idea what’s coming. So your brain fills the blank with hope on the good days and fear on the bad ones.\n\nHere’s what changes when you know your month before you live it: the question loses its grip. You know which week favors the conversation. You know which days to sit tight. You stop guessing your way through your own life.\n\nThat’s what AstroMagick Monthly is for. Weekly forecast videos, your Best Dates list, moon rituals, and a private community, for $10 a month.\n\nDM me MAGICK and I’ll send you the link. (Also in my bio.)\n\n✦ The next time the 1am question shows up, write it down instead of replaying it. A question on paper is a question you can bring to your cards in the morning.\n\nFollow @TigerEye_Oracle if you’re done falling asleep mid-question.\n\n#astrology #astrologyreading #moonphases #tarotcommunity #astrologysigns #lunarcycle #spiritualguidance #astrologymembership #knowyourchart #divinetiming",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"Know your month before you live it.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "single",
+        offer: "AstroMagick Monthly",
+        pillar: "Timing",
+        hook: "The strongest dates of your month, written out for you.",
+        caption: "Do you know which dates this month favor love, money, and big decisions?\n\n📌 Save this before you schedule anything important this month.\n\nMost people pick the date first and hope the timing works out. The interview, the hard conversation, the launch, the first date. Then they wonder why some days everything lands and other days nothing does.\n\nInside AstroMagick Monthly, you get your Best Dates list every month: the strongest dates for love, money, and big decisions, in a simple written list you can screenshot and schedule around.\n\nOne rescheduled conversation that actually goes your way pays for the month. It’s $10.\n\nDM me MAGICK for the link. (Also in my bio.)\n\n✦ Already have something big on the calendar this month? Check it against the moon phase before you lock it in. A full moon week feels very different from a new moon week.\n\nFollow @TigerEye_Oracle to plan your months with the timing on your side.\n\n#astrology #bestdates #moonphases #astrologytiming #lunarcalendar #tarotcommunity #astrologyreading #manifestation #newmoon #fullmoon",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"The strongest dates of your month, written out for you.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "carousel",
+        offer: "AstroMagick Monthly",
+        pillar: "Knowing",
+        hook: "A month inside AstroMagick",
+        caption: "Would you plan your week differently if you knew what was coming?\n\n📌 Save this so you can come back when you’re ready to join.\n\nHere’s what a month looks like when you have the timing on your side.\n\nMonday, you watch a short forecast video with your coffee. You know what the week holds before it starts.\n\nMid-month, you pull up your Best Dates list and book the conversation you’ve been putting off, on a date that actually favors it.\n\nNew moon, you set your intention. Full moon, you release what’s finished instead of dragging it into next month.\n\nAnd when a week feels heavy, you ask about it in the community instead of wondering if it’s just you.\n\nFour weekly forecasts, your best dates, two moon rituals, and women who get it. That’s AstroMagick Monthly, for $10 a month.\n\nDM me MAGICK and I’ll send you the link. (Also in my bio.)\n\n✦ Swipe back through and notice which slide you needed most. That’s the part of your life asking for timing first.\n\nFollow @TigerEye_Oracle if you want to see your week before you live it.\n\n#astrology #astrologymembership #weeklyforecast #moonrituals #newmoonritual #fullmoonritual #lunarliving #tarotcommunity #astrologyreading #divinetiming",
+        prompt: "Please generate a 4:5, 6-slide Instagram carousel using the uploaded Tiger Eye Oracle brand style.\n\nSLIDE 1 (Cover): Headline: \"A month inside AstroMagick\" Subline: \"What $10 actually gets you. Swipe.\"\nSLIDE 2: Headline: \"Every Monday: your forecast\" Subtext: \"A short weekly video. What this week holds, when to push, when to rest.\"\nSLIDE 3: Headline: \"Your Best Dates list\" Subtext: \"The strongest dates of the month for love, money, and big decisions. Screenshot it. Schedule around it.\"\nSLIDE 4: Headline: \"Two moon rituals a month\" Subtext: \"Set your intention at the new moon. Release what’s finished at the full moon.\"\nSLIDE 5: Headline: \"The private community\" Subtext: \"Ask your questions. Get context when a week feels heavy. Plan alongside women who live by their timing too.\"\nSLIDE 6 (CTA): Headline: \"Guessing keeps you stuck. Knowing sets you free.\" Subtext: \"Join AstroMagick Monthly for $10/mo. DM me MAGICK for the link.\"\n\nInclude @TigerEye_Oracle at the bottom of every slide. Add a right-arrow icon in the bottom corner of every slide except the CTA slide to signal swipe."
+      },
+      {
+        type: "single",
+        offer: "AstroMagick Monthly",
+        pillar: "Timing",
+        hook: "Some weeks are built for the move. Some are built for rest.",
+        caption: "Are you forcing a big move during a week that’s built for rest?\n\n📌 Save this for the next time everything feels harder than it should.\n\nYou know those weeks where every text lands wrong, every plan falls through, and you start wondering what you’re doing wrong?\n\nSometimes nothing is wrong. The timing is just against you, and nobody told you.\n\nMy members know before the week starts. The weekly forecast tells you when to push and when to rest, so you stop spending your energy on days that were never going to cooperate and save it for the days that will.\n\nThat’s AstroMagick Monthly. $10 a month for a timing plan for every week of your life.\n\nDM me MAGICK for the link. (Also in my bio.)\n\n✦ Rest weeks are prep weeks. Use them to get ready, so when your window opens you can move fast.\n\nFollow @TigerEye_Oracle for straight answers about when to move and when to wait.\n\n#astrology #weeklyhoroscope #astrologyforecast #moonphases #restandreset #divinetiming #tarotcommunity #astrologyreading #lunarcycle #spiritualcommunity",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"Some weeks are built for the move. Some are built for rest.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "single",
+        offer: "AstroMagick Monthly",
+        pillar: "Moon Magic",
+        hook: "Set it at the new moon. Release it at the full.",
+        caption: "What did you release at the last full moon?\n\n📌 Save this if your answer was \"nothing.\"\n\nIf you can’t remember, you’re probably still carrying it. The situationship that ended months ago. The version of the plan that already fell through. The grudge that only hurts you.\n\nThe moon gives you two built-in appointments every month. The new moon is for setting the intention. The full moon is for putting down what’s finished.\n\nInside AstroMagick Monthly, I hand you both rituals every month, written for that specific moon, so you’re working with what’s actually in the sky. No guessing, no generic ritual you found at midnight.\n\n$10 a month. DM me MAGICK for the link. (Also in my bio.)\n\n✦ A release ritual doesn’t have to be elaborate. Write down what’s finished, say it out loud, and burn the paper safely. Done is done.\n\nFollow @TigerEye_Oracle if you’re ready to put down what’s finished.\n\n#fullmoon #newmoon #moonritual #fullmoonrelease #newmoonintentions #moonmagic #lunarcycle #astrology #tarotcommunity #spiritualpractice",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"Set it at the new moon. Release it at the full.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "single",
+        offer: "AstroMagick Monthly",
+        pillar: "Community",
+        hook: "Women who live by their timing.",
+        caption: "Who do you talk to when a week feels heavy and your friends don’t get it?\n\n📌 Save this if you’ve been decoding your life alone.\n\nYour friends love you. They’ll also tell you what they’d do, which is exactly how you ended up with four opinions and no answer.\n\nInside the AstroMagick community, you ask your question and get context instead. Why this week feels the way it does. What the sky is actually doing. What to do with it. From me, and from women who plan their lives by their timing too.\n\nIt comes with everything else in AstroMagick Monthly: weekly forecasts, your Best Dates list, and two moon rituals a month. $10.\n\nDM me MAGICK for the link. (Also in my bio.)\n\n✦ Next time a week knocks you sideways, ask \"what is the moon doing right now\" before you ask \"what is wrong with my life.\" The first question usually answers the second.\n\nFollow @TigerEye_Oracle and stop decoding your life alone.\n\n#astrologycommunity #spiritualcommunity #astrology #moonphases #tarotcommunity #womensupportingwomen #lunarliving #astrologyreading #divinetiming #spiritualgrowth",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"Women who live by their timing.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "single",
+        offer: "AstroMagick Monthly",
+        pillar: "Freedom",
+        hook: "A few months in, you start catching the pattern yourself.",
+        caption: "Stop treating readings like a lifeline. Start using them as a check-in.\n\n📌 Save this if you’ve ever booked a reading in a panic.\n\nHere’s what happens to women who stay in my world for a few months.\n\nThey start catching patterns in weeks that used to take them years. They see the retrograde coming and stop taking his silence personally. They check their Best Dates before they say yes to anything big.\n\nAnd somewhere in there, the panic-booking stops. A reading becomes a check-in with someone who knows your story, instead of a lifeline you grab at midnight.\n\nThat’s the real product inside AstroMagick Monthly. The forecasts and rituals are the tools. Trusting your own read on your life is the transformation. $10 a month.\n\nDM me MAGICK for the link. (Also in my bio.)\n\n✦ Keep a one-line log of each week: what the forecast said, what actually happened. Three months of that and you’ll see your own patterns in black and white.\n\nFollow @TigerEye_Oracle if you want to trust your own read on your life.\n\n#astrology #selftrust #spiritualgrowth #astrologymembership #moonphases #tarotcommunity #innerknowing #lunarcycle #astrologyreading #freedom",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"A few months in, you start catching the pattern yourself.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "carousel",
+        offer: "Lunar Compass Session",
+        pillar: "Signature Session",
+        hook: "Too close to see it clearly?",
+        caption: "Can you read everyone else’s situation except your own?\n\n📌 Save this for the day you’re ready for a straight answer.\n\nYou saw your best friend’s red flags a mile away. You called your sister’s breakup two months before it happened. But yours? You’ve screenshotted the conversation, forwarded it to the group chat, and analyzed every word. And you still don’t know what he’s actually doing.\n\nThat’s what being too close looks like. You can see everyone else’s situation clearly. Yours is the one standing on top of you.\n\nThe Lunar Compass Session gets you outside of it. One hour on Zoom where we use your cards and your astrology to answer three things: what’s actually happening, why the pattern keeps repeating, and when the timing favors your move.\n\nYou leave with your action steps recorded as a private voice message and a personalized ritual PDF for the outcome you’re calling in. Plus two check-ins from me over the moon cycle. ($197)\n\nDM me COMPASS to book. (Link in bio.)\n\n✦ Here’s a quick gut-check: if you’ve asked three different friends the same question, you already know you’re too close.\n\nFollow @TigerEye_Oracle for straight answers in regular words.\n\n#tarotreading #astrologyreading #relationshipadvice #tarotreader #situationship #divinetiming #lunarcompass #spiritualguidance #tarotcommunity #knowyourworth",
+        prompt: "Please generate a 4:5, 6-slide Instagram carousel using the uploaded Tiger Eye Oracle brand style.\n\nSLIDE 1 (Cover): Headline: \"Too close to see it clearly?\" Subline: \"There’s a reason you can’t read your own situation. Swipe.\"\nSLIDE 2: Headline: \"You’re standing inside it\" Subtext: \"You can read everyone else’s situation in seconds. Yours is the one you can’t see, because you’re too close to the pattern.\"\nSLIDE 3: Headline: \"What’s actually happening\" Subtext: \"In The Lunar Compass Session, we look at your situation from the outside. You get a straight answer in regular words.\"\nSLIDE 4: Headline: \"Why it keeps repeating\" Subtext: \"Your cards show the pattern. Your astrology shows why now, and why it keeps coming back.\"\nSLIDE 5: Headline: \"When to make your move\" Subtext: \"Timing is the part guessing can never give you. You’ll know when to act, when to wait, and when your window opens.\"\nSLIDE 6 (CTA): Headline: \"Guessing keeps you stuck. Knowing sets you free.\" Subtext: \"The Lunar Compass Session, $197. One hour on Zoom plus two check-ins over the moon cycle. DM me COMPASS to book.\"\n\nInclude @TigerEye_Oracle at the bottom of every slide. Add a right-arrow icon in the bottom corner of every slide except the CTA slide to signal swipe."
+      },
+      {
+        type: "single",
+        offer: "Lunar Compass Session",
+        pillar: "Signature Session",
+        hook: "You've journaled it, talked it out, and Googled his sign at 1am.",
+        caption: "After all that journaling, why are you still guessing?\n\n📌 Save this if you’ve replayed the same decision all week.\n\nYou’ve done the work. Pages of journaling. Long talks with your best friend. A 1am deep-dive into his birth chart.\n\nAnd the question is still open, because everything you’ve tried keeps you inside your own head, where hope and fear take turns writing the story.\n\nThe Lunar Compass Session answers it from outside your head. In one hour, your cards and your astrology give you the truth about what’s going on, why it keeps repeating, and the timing for your next move. Clear, direct, in regular words. ($197, includes two check-ins over the moon cycle)\n\nYou’ll leave knowing what to do, when to do it, and why it’s right for you.\n\nDM me COMPASS to book. (Link in bio.)\n\n✦ Journaling is still worth doing. Bring your pages to the session. The question you keep circling in writing is usually the exact one we need to put on the table.\n\nFollow @TigerEye_Oracle if you’re done guessing.\n\n#tarotreading #astrologyreading #tarotreader #clarity #decisionmaking #birthchart #spiritualguidance #tarotcommunity #divinetiming #knowingsetsyoufree",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"You've journaled it, talked it out, and Googled his sign at 1am.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      },
+      {
+        type: "single",
+        offer: "Lunar Compass Session",
+        pillar: "Signature Session",
+        hook: "Your next moves, recorded in my voice. Replay them anytime.",
+        caption: "What do you do when the second-guessing starts three days after a reading?\n\n📌 Save this if clarity never seems to survive the week.\n\nYou know the cycle. The reading lands, everything makes sense, you feel ten pounds lighter. Then Thursday hits, he texts something confusing, and you’re back to square one trying to remember what you were told.\n\nThat’s why The Lunar Compass Session doesn’t end when the Zoom call does.\n\nAfter your session, I record your action steps as a private voice message: what to do, what to release, and when to move. The moment doubt creeps in, you press play and hear it again.\n\nYou also get a personalized ritual PDF built from your astrology and the outcome you’re calling in, plus two check-ins from me over the moon cycle. ($197)\n\nDM me COMPASS to book. (Link in bio.)\n\n✦ Save the voice message somewhere you’ll find it fast. Doubt shows up at inconvenient hours. Your answer should be one tap away.\n\nFollow @TigerEye_Oracle for readings that hold up past Thursday.\n\n#tarotreading #astrologyreading #tarotreader #spiritualguidance #ritualwork #moonmagic #tarotcommunity #divinetiming #selftrust #lunarcompass",
+        prompt: "Please generate a 4:5 image using the uploaded Tiger Eye Oracle brand style. Overlay the headline \"Your next moves, recorded in my voice. Replay them anytime.\" Include @TigerEye_Oracle at the bottom of the graphic."
+      }
+    ];
+
+    function fieldBlock(label, text, opts) {
+      opts = opts || {};
+      var textClass = opts.isPrompt ? 'prompt-box' : 'field-text' + (opts.isHook ? ' hook-text' : '');
+      var wrapClass = opts.isPrompt ? 'prompt-wrap' : 'caption-wrap';
+      var threshold = opts.isPrompt ? 380 : 170;
+      var needsCollapse = text.length > threshold && (opts.isPrompt || !opts.isHook);
+      var escaped = text.replace(/\n/g, '<br />');
+      var copyBtn = opts.isPrompt
+        ? ''
+        : '<button class="copy-btn" onclick="copyField(this)">Copy</button>';
+      var wrap = needsCollapse
+        ? '<div class="collapsible-wrap ' + wrapClass + ' collapsed"><div class="' + textClass + '">' + escaped + '</div></div><button class="toggle-btn" data-label="' + label.toLowerCase() + '" onclick="toggleCollapse(this)">Show full ' + label.toLowerCase() + '</button>'
+        : '<div class="' + textClass + '">' + escaped + '</div>';
+      var promptCopyBtn = opts.isPrompt ? '<button class="copy-btn copy-prompt" onclick="copyField(this)">Copy Prompt</button>' : '';
+      return '<div class="field"><div class="field-label-row"><span class="field-label">' + label + '</span>' + copyBtn + '</div>' + wrap + promptCopyBtn + '</div>';
+    }
+
+    var grid = document.getElementById('postGrid');
+    POSTS.forEach(function(post, i) {
+      var card = document.createElement('div');
+      card.className = 'post-card';
+      var tagLabel = post.type === 'carousel' ? 'Carousel' : 'Single Image';
+      card.innerHTML =
+        '<div class="post-card-top">' +
+          '<div class="post-number">Post ' + String(i + 1).padStart(2, '0') + '</div>' +
+          '<span class="type-tag type-' + post.type + '">' + tagLabel + '</span>' +
+        '</div>' +
+        '<div class="post-tags">' +
+          '<span class="offer-tag">' + post.offer + '</span>' +
+          '<span class="pillar-tag">' + post.pillar + '</span>' +
+        '</div>' +
+        fieldBlock('Graphic Hook', post.hook, { isHook: true }) +
+        fieldBlock('Caption', post.caption) +
+        fieldBlock('ChatGPT Image Prompt', post.prompt, { isPrompt: true });
+      grid.appendChild(card);
+    });
+
+    function downloadAllPosts() {
+      var content = "THE FORGE FEED — TIGER EYE ORACLE — 10 POSTS\n@TigerEye_Oracle\n\nDM Keywords: MAGICK = AstroMagick Monthly ($10/mo) | COMPASS = The Lunar Compass Session ($197)\nNOTE: Booking links are placeholders. Swap \"link in bio\" for your real URLs when ready.\n\n";
+      POSTS.forEach(function(p, i) {
+        var tagLabel = p.type === 'carousel' ? 'Carousel' : 'Single Image';
+        content += 'POST ' + String(i + 1).padStart(2, '0') + ' — ' + p.offer + ' — ' + tagLabel + ' — ' + p.pillar + '\n\n';
+        content += 'Graphic Hook:\n' + p.hook + '\n\n';
+        content += 'Caption:\n' + p.caption + '\n\n';
+        content += 'ChatGPT Image Prompt:\n' + p.prompt + '\n\n';
+        content += '----------------------------------------\n\n';
+      });
+      var blob = new Blob([content], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'tiger-eye-oracle-forge-feed-10-posts.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>
